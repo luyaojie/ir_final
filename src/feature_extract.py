@@ -30,3 +30,18 @@ def featureExtract(input_filename, output_filename, gram=1, mode='tf'):
     :return:
     """
     pass
+
+
+"""
+inputfile
+    Text File
+
+OutpuFile
+    Matrix
+    data/2w/2w.<feature_name>.train
+        Matrix (instance_num, feature_num) # scipy csr
+        Matrix (instance_num, feature_num) # Numpy -> array
+data/2w/2w.<feature_name>.model
+
+class featureextractor
+"""
