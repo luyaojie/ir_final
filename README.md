@@ -2,7 +2,7 @@
 
 ## preprocessing
 - **function:** replace number and English in query, number replace with '<num>', English replace with '<English>'
-- **input:** intput_filename output_filename
+- **input:** intput_filename output_filename keep-num keep-alpha
 - **output:** void
 
 ## feature structure

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Feature Selection
 
 def filter(input_filename, output_filename, filter='MI', mode='proportion', num=0, proportion=1.0):
