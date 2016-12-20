@@ -1,13 +1,14 @@
 # ir_final
 
 ## preprocessing
-- **function:** replace number and English in query, number replace with '<num>', English replace with '<English>'
-- **input:** intput_filename output_filename keep-num keep-alpha
+- **function:** replace number and English in query, number replace with '\<num>', English replace with '\<English>', 
+Url extract key word
+- **input:** intput_filename output_filename keep-num keep-alpha keep-url
 - **output:** void
 
 ## feature extract
-- **function:** gram=[1,2] mode=['binary','tf','tf-idf','doc2vec']
-- **input:** input_filename, output_filename, gram=1, mode='tf'
+- **function:** gram=[1,2] mode=['binary','tf','tfidf', 'idf'']
+- **input:** input_filename, output_filename, gram=1, mode='tf', max_df=1.0, min_df=0.0, cf=1
 - **output:** void
 
 ## feature selection

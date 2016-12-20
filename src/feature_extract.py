@@ -130,6 +130,8 @@ if __name__ == "__main__":
     parser.add_argument('--min-df', dest='min_df', type=float, default=0.0, help='Min Document Frequency')
     parser.add_argument('-c', '--cf', dest='cf', type=int, default=1, help='Min Corpus Frequency')
     args = parser.parse_args()
+    if args.mode not in ['tf', 'binary', 'idf', 'tfidf']:
+        raise NotImplementedError
     feature_extract_to_file(input_filename=args.input_file,
                             output_filename=args.output_file,
                             gram=args.gram, mode=args.mode,
