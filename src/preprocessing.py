@@ -124,7 +124,7 @@ def extract_url_keyword(url):
         url = url.split("www.")[1]
     if "/" in url:
         url = url.split("/")[0]
-    return url
+    return url.replace(".", "_")
 
 
 if __name__ == "__main__":
