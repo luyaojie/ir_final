@@ -5,7 +5,7 @@
 - **input:** intput_filename output_filename keep-num keep-alpha
 - **output:** void
 
-## feature structure
+## feature extract
 - **function:** gram=[1,2] mode=['binary','tf','tf-idf','doc2vec']
 - **input:** input_filename, output_filename, gram=1, mode='tf'
 - **output:** void

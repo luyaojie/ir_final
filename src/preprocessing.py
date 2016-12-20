@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 # Preprocessing
 
+# TODO
+# URL Dect
+# http://www. -> None
+# http:// -> None
+# https://
 
-def replace_non_chinese(input_filename, output_filename, remove_num=True, remove_english=True):
+
+def replace_non_chinese(input_filename, output_filename, remove_num=True, remove_alpha=True):
     """
     replace number in query -- file level
     :param input_filename:
@@ -17,7 +23,7 @@ def replace_non_chinese(input_filename, output_filename, remove_num=True, remove
             line = line.strip()
             if remove_num:
                 line = replaceNumByLine(line)
-            if remove_english:
+            if remove_alpha:
                 line = replaceEnglishByLine(line)
             output.write("%s\n" % line)
     output.close()
@@ -78,9 +84,9 @@ if __name__ == "__main__":
     parser.add_argument('--keep-num', dest='remove_num', action='store_false', help='Keep Number\tDefalut Remove')
     parser.add_argument('--keep-alpha', dest='remove_alpha', action='store_false', help='Keep Alpha\tDefalut Remove')
     parser.set_defaults(remove_num=True)
-    parser.set_defaults(remove_english=True)
+    parser.set_defaults(remove_alpha=True)
     args = parser.parse_args()
     replace_non_chinese(input_filename=args.input_file,
                         output_filename=args.output_file,
                         remove_num=args.remove_num,
-                        remove_english=args.remove_english)
+                        remove_alpha=args.remove_alpha)
