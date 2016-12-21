@@ -2,10 +2,6 @@
 # Feature Methods
 import numpy as np
 
-# Feature Extractor Model
-# Save Load
-
-
 
 def ngram(query, n):
     """

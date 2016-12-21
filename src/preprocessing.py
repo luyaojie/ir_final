@@ -18,10 +18,10 @@ def replace_non_chinese(input_filename, output_filename, remove_num=True, remove
             line = line.strip()
             if remove_num:
                 line = replaceNumByLine(line)
-            if remove_alpha:
-                line = replaceEnglishByLine(line)
             if remove_url:
                 line = replaceUrlByLine(line)
+            if remove_alpha:
+                line = replaceEnglishByLine(line)
             output.write("%s\n" % line)
     output.close()
 
@@ -82,6 +82,8 @@ def replaceEnglishInQuery(query, replace=""):
     :param replace:
     :return:
     """
+    if is_url(query):
+        return query
     return " ".join([word if not word.isalpha() else replace for word in query.split()]).strip()
 
 
@@ -103,7 +105,7 @@ def is_url(query):
     :param query:
     :return:
     """
-    if query.startswith("http") or query.startswith("www"):
+    if "http" in query or "www" in query:
         return True
     else:
         return False
@@ -117,13 +119,17 @@ def extract_url_keyword(url):
     """
     url = url.replace(" ", "")
     if "http://" in url:
-        url = url.replace("http://", "")
+        url = url.split("http://")[1]
     if "https://" in url:
-        url = url.replace("https://", "")
+        url = url.split("https://")[1]
     if "www." in url:
         url = url.split("www.")[1]
+    if url.startswith("www"):
+        url = url.replace("www", "")
     if "/" in url:
         url = url.split("/")[0]
+    if ".." in url:
+        url = url.replace("..", ".")
     return url.replace(".", "_")
 
 
@@ -143,4 +149,5 @@ if __name__ == "__main__":
     replace_non_chinese(input_filename=args.input_file,
                         output_filename=args.output_file,
                         remove_num=args.remove_num,
-                        remove_alpha=args.remove_alpha)
+                        remove_alpha=args.remove_alpha,
+                        remove_url=args.remove_url)
