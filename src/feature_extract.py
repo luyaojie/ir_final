@@ -18,6 +18,13 @@ def ngram(query, n):
 
 
 def parse_data_line(line, train=True, gram_range=(1, 1)):
+    """
+    Parse a data in one line
+    :param line:
+    :param train:
+    :param gram_range:
+    :return:
+    """
     att = line.strip().split("\t")
     word_list = list()
     if train:
@@ -35,6 +42,14 @@ def parse_data_line(line, train=True, gram_range=(1, 1)):
 
 
 def read_data_file(filename, train=True, gram_range=(1, 1), cf=1):
+    """
+    Read Raw CCF Data File
+    :param filename:
+    :param train:
+    :param gram_range:
+    :param cf:
+    :return:
+    """
     label_list = list()
     queries = list()
     word_cf_count = dict()
@@ -58,7 +73,7 @@ def read_data_file(filename, train=True, gram_range=(1, 1), cf=1):
             if word in word_cf_count:
                 new_word.append(word)
         new_queries.append(" ".join(new_word))
-    y = np.array(label_list, dtype=np.int32).transpose()
+    y = np.array(label_list, dtype=np.int32)
     return new_queries, y
 
 
@@ -71,29 +86,27 @@ def feature_extract(input_filename, gram=1, mode='tf', max_df=1.0, min_df=0.0, c
     :param mode: binary tf tfidf idf
     :return:
     """
-    from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+    from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
     x_text, y = read_data_file(input_filename, train=True, gram_range=(1, gram), cf=cf)
     if mode == 'binary':
         feature_extractor = CountVectorizer(ngram_range=(1, 1), max_df=max_df,
                                             min_df=min_df, binary=False)
         x = feature_extractor.fit_transform(x_text)
     elif mode == 'tf':
-        print x_text
         feature_extractor = CountVectorizer(ngram_range=(1, 1), max_df=max_df,
                                             min_df=min_df, binary=True)
         x = feature_extractor.fit_transform(x_text)
-        print feature_extractor.vocabulary_
     elif mode == 'tfidf':
         feature_extractor1 = CountVectorizer(ngram_range=(1, 1), max_df=max_df,
                                              min_df=min_df, binary=False)
         x = feature_extractor1.fit_transform(x_text)
-        feature_extractor2 = TfidfVectorizer()
+        feature_extractor2 = TfidfTransformer()
         x = feature_extractor2.fit_transform(x)
     elif mode == 'idf':
         feature_extractor1 = CountVectorizer(ngram_range=(1, 1), max_df=max_df,
                                              min_df=min_df, binary=True)
         x = feature_extractor1.fit_transform(x_text)
-        feature_extractor2 = TfidfVectorizer()
+        feature_extractor2 = TfidfTransformer()
         x = feature_extractor2.fit_transform(x)
     else:
         raise NotImplementedError
@@ -125,9 +138,15 @@ if __name__ == "__main__":
     parser.add_argument('--max-df', dest='max_df', type=float, default=1.0, help='Max Document Frequency')
     parser.add_argument('--min-df', dest='min_df', type=float, default=0.0, help='Min Document Frequency')
     parser.add_argument('-c', '--cf', dest='cf', type=int, default=1, help='Min Corpus Frequency')
+    parser.add_argument('-r', '--recommend-name', dest='recommend_name', action='store_true',
+                        help='Just Recommend a Name')
+    parser.set_defaults(recommend_name=False)
     args = parser.parse_args()
     if args.mode not in ['tf', 'binary', 'idf', 'tfidf']:
         raise NotImplementedError
+    if args.recommend_name:
+        print "%dgram_%s_maxdf%.2f_mindf%.2f_cf%d" % (args.gram, args.mode, args.max_df, args.min_df, args.cf)
+        exit(1)
     feature_extract_to_file(input_filename=args.input_file,
                             output_filename=args.output_file,
                             gram=args.gram, mode=args.mode,
