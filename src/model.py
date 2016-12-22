@@ -86,7 +86,7 @@ def cv_index(num_instance, cv_num=10, random=True):
     """
     indexs = np.arange(num_instance)
     if random:
-        np.random.permutation(indexs)
+        indexs = np.random.permutation(indexs)
     for cv_i in xrange(cv_num):
         single_cv = num_instance / cv_num
 
