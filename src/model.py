@@ -85,11 +85,30 @@ def cv_index(num_instance, cv_num=10, random=True):
 
 
 def cv_train_test(x, y, classifier, cv_num=10, random=True):
+    """
+    CV Train Test
+    :param x:
+    :param y:
+    :param classifier:
+    :param cv_num:
+    :param random:
+    :return:
+    """
+    result = list()
     for train_index, test_index in cv_index(x.shape[0], cv_num=cv_num, random=random):
         train_x, train_y = x[train_index], y[train_index]
         test_x, test_y = x[test_index], y[test_index]
-        print fit_and_score_on_three_task(train_x, train_y, test_x, test_y, classifier)
+        result.append(fit_and_score_on_three_task(train_x, train_y, test_x, test_y, classifier))
+    return result
 
 
 def feature_merge(x1, x2):
-    pass
+    """
+    Merge Two Feature Matrix
+    :param x1: (instances, feature1)
+    :param x2: (instances, feature2)
+    :return:
+    """
+    assert x1.shape[0] == x2.shape[0]
+    from scipy.sparse import hstack
+    return hstack([x1, x2])
