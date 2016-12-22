@@ -17,7 +17,7 @@ Url extract key word
 - **output:** void
 
 ## model
-- **function:** classifier=['NB','LR']
+- **function:** classifier=['NB','LR', 'SGD']
 - **input:** train_data_x train_data_y test_data_x test_data_y classifier param
 - **output:** score
 
