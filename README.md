@@ -21,5 +21,13 @@ Url extract key word
 - **input:** train_data_x train_data_y test_data_x test_data_y classifier param
 - **output:** score
 
+## classifier
+- **function:** Generate a SKlearn Classifier from args
+- **input:** args
+- **output:** classifier
+
+## arguments
+
+
 ## ensemble
 
