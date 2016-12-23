@@ -36,25 +36,7 @@ def fit_and_score(train_data_x, train_data_y, test_data_x, test_data_y, classifi
     return classifier.score(test_x, test_y)
 
 
-def fit_and_score_cv(x, y, classifier, cv_num=10, random=True):
-    """
-    fit train_data used classifier, and score in test_data on one task
-    :param x:
-    :param y:
-    :param classifier:
-    :param cv_num:
-    :param random:
-    :return:
-    """
-    result = list()
-    for train_index, test_index in cv_index(x.shape[0], cv_num=cv_num, random=random):
-        train_x, train_y = x[train_index], y[train_index]
-        test_x, test_y = x[test_index], y[test_index]
-        result.append(fit_and_score(train_x, train_y, test_x, test_y, classifier))
-    return result
-
-
-def fit_and_score_on_three_task(train_data_x, train_data_y, test_data_x, test_data_y, classifier):
+def fit_and_score_on_multi_task(train_data_x, train_data_y, test_data_x, test_data_y, classifier):
     """
     fit train_data used classifier, and score in test_data
     on age, gender, education
@@ -113,54 +95,15 @@ def cv_train_test(x, y, classifier, cv_num=10, random=True):
     :return:
     """
     result = list()
+    if y.ndim > 1:
+        multi_task = True
+    else:
+        multi_task = False
     for train_index, test_index in cv_index(x.shape[0], cv_num=cv_num, random=random):
         train_x, train_y = x[train_index], y[train_index]
         test_x, test_y = x[test_index], y[test_index]
-        result.append(fit_and_score_on_three_task(train_x, train_y, test_x, test_y, classifier))
+        if multi_task:
+            result.append(fit_and_score_on_multi_task(train_x, train_y, test_x, test_y, classifier))
+        else:
+            result.append(fit_and_score(train_x, train_y, test_x, test_y, classifier))
     return result
-
-
-def feature_merge(x1, x2):
-    """
-    Merge Two Feature Matrix
-    :param x1: (instances, feature1)
-    :param x2: (instances, feature2)
-    :return:
-    """
-    assert x1.shape[0] == x2.shape[0]
-    from scipy.sparse import hstack
-    return hstack([x1, x2])
-
-
-def get_sgd_classifier_from_args(args):
-    """
-    Get a SGD Classifier from args
-    :param args:
-    :return:
-    """
-    from sklearn.linear_model import SGDClassifier
-    return SGDClassifier(loss=args.sgd_loss,  # ‘hinge’, ‘log’, ‘modified_huber’, ‘squared_hinge’, ‘perceptron’
-                         penalty=args.sgd_penalty,  # ‘none’, ‘l2’, ‘l1’, or ‘elasticnet’
-                         n_iter=args.n_iter,
-                         shuffle=args.shuffle,
-                         alpha=args.alpha,  # Constant that multiplies the regularization term. Defaults to 0.0001
-                         )
-
-
-def get_nb_classifier_from_args(args):
-    from sklearn.naive_bayes import MultinomialNB
-    return MultinomialNB(alpha=args.alpha,  # Additive (Laplace/Lidstone) smoothing parameter (0 for no smoothing).
-                         )
-
-
-def get_classifier_from_args(args):
-    if args.classifier.low() == "sgd":
-        return get_sgd_classifier_from_args(args)
-    elif args.classifier.low() == "nb":
-        return get_nb_classifier_from_args(args)
-    else:
-        raise NotImplementedError
-
-
-if __name__ == "__main__":
-    pass

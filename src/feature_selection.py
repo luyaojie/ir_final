@@ -26,6 +26,7 @@ def dataTransform(input_filename):
     labels = {'age': label_age, 'gender': label_gender, 'education': label_education}
     return id, train_data_x, labels
 
+
 def filter(input_filename, label='age', filter='MI', mode='proportion', value=1.0):
     id,train_data_x, labels=dataTransform(input_filename)
     if filter=='chi2':

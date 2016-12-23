@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Feature Methods
 import numpy as np
+from arguments import add_feature_arg_parse
 
 
 def ngram(query, n):
@@ -81,9 +82,11 @@ def feature_extract(input_filename, gram=1, mode='tf', max_df=1.0, min_df=0.0, c
     """
     Feature Extract
     :param input_filename:
-    :param output_filename:
     :param gram: 1 2 ...
     :param mode: binary tf tfidf idf
+    :param max_df:
+    :param min_df:
+    :param cf:
     :return:
     """
     from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
@@ -120,11 +123,27 @@ def feature_extract_to_file(input_filename, output_filename, gram=1, mode='tf', 
     :param output_filename:
     :param gram: 1 2 ...
     :param mode: binary tf tfidf idf
+    :param max_df:
+    :param min_df:
+    :param cf:
     :return:
     """
     from sklearn.externals import joblib
     x, y = feature_extract(input_filename, gram=gram, mode=mode, max_df=max_df, min_df=min_df, cf=cf)
     joblib.dump((x, y), output_filename)
+    return x, y
+
+
+def feature_merge(x1, x2):
+    """
+    Merge Two Feature Matrix
+    :param x1: (instances, feature1)
+    :param x2: (instances, feature2)
+    :return:
+    """
+    assert x1.shape[0] == x2.shape[0]
+    from scipy.sparse import hstack
+    return hstack([x1, x2])
 
 
 if __name__ == "__main__":
@@ -133,11 +152,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', dest='input_file', type=str, help='Input File')
     parser.add_argument('-o', '--output', dest='output_file', type=str, help='Output File')
-    parser.add_argument('-g', '--gram', dest='gram', type=int, default=1, help='Gram Number')
-    parser.add_argument('-m', '--mode', dest='mode', type=str, default='tf', help='Option: binary tf tfidf idf')
-    parser.add_argument('--max-df', dest='max_df', type=float, default=1.0, help='Max Document Frequency')
-    parser.add_argument('--min-df', dest='min_df', type=float, default=0.0, help='Min Document Frequency')
-    parser.add_argument('-c', '--cf', dest='cf', type=int, default=1, help='Min Corpus Frequency')
+    add_feature_arg_parse(parser)
     parser.add_argument('-r', '--recommend-name', dest='recommend_name', action='store_true',
                         help='Just Recommend a Name')
     parser.set_defaults(recommend_name=False)
