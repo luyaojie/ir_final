@@ -42,9 +42,11 @@ def embedding_feature_extract(input_file, embedding_file, pooling='mean'):
             document_num = float(len(queries))
             for word in idf_dict.iterkeys():
                 idf_dict[word] = math.log(document_num / idf_dict[word])
-            cPickle.dump(idf_dict, idf_file)
+            with open(idf_file, 'wb') as out:
+                cPickle.dump(idf_dict, out)
         else:
-            idf_dict = cPickle.load(idf_file)
+            with open(idf_file, 'rb') as fin:
+                idf_dict = cPickle.load(fin)
         for i in xrange(len(queries)):
             embedding_list = list()
             for word in queries[i].split():
