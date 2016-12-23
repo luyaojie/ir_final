@@ -21,6 +21,12 @@ def add_feature_arg_parse(_parser):
     _parser.add_argument('--cf', dest='cf', type=int, default=1, help='Min Corpus Frequency')
 
 
+def add_embedding_feature_arg_parse(_parser):
+    _parser.add_argument('--embedding', dest='embedding', type=str, help='Embedding File Name')
+    _parser.add_argument('--pooling', dest='pooling', type=str, default='mean',
+                         help="Pooling: ['mean', 'max', 'idf'], default is 'mean'")
+
+
 def add_classifier_arg_parse(_parser):
     _parser.add_argument('--classifier', dest='classifier', type=str, default='nb',
                          help="classifier: ['nb', 'sgd'], default is nb")
@@ -47,6 +53,11 @@ def get_data_information(_args):
 def get_feature_information(_args):
     return "gram %s, mode %s, max-df %.2f, min-df %.2f, cf %d" % (_args.gram, _args.mode, _args.max_df,
                                                                   _args.min_df, _args.cf)
+
+
+def get_embedding_feature_information(_args):
+    embedding_name = _args.embedding.split(".")[1]
+    return "embedding %s, pooling %s" % (embedding_name, _args.pooling)
 
 
 def get_classifier_information(_args):
