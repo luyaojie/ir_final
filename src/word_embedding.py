@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+# Run Word Embedding Exp
+# 运行词向量实验
+
+
 import numpy as np
 from feature_extract import read_data_file
 from gensim.models import Word2Vec

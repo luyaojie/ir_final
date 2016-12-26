@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# 从命令行参数生成一个分类器
+
+
 def get_sgd_classifier_from_args(_args):
     """
     Get a SGD Classifier from args

@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 # Feature Methods
+# 抽取传统特征 Binary TF IDF TFIDF
+
+
 import numpy as np
 from arguments import add_feature_arg_parse
 

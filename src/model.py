@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 # Model Methods
+# 运行交叉验证实验
+
 import numpy as np
 
 

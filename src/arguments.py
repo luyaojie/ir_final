@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# 定义命令行参数
+
+
 def add_data_arg_parse(_parser):
     _parser.add_argument('-d', '--data', dest='data', type=str, default='2w',
                          help="Data Size: ['2w', '10w'], default is 2w")

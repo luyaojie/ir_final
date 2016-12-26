@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Preprocessing
+# 对语料进行预处理，对非中文字符（数字、英文单词、URL）进行区分
 
 
 def replace_non_chinese(input_filename, output_filename, remove_num=True, remove_alpha=True, remove_url=True):

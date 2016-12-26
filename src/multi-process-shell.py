@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# 多进程平行运行Bash命令，便于参数选择
+
+
 import os
 import multiprocessing as mp
 import sys

@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# 选择特征及分类器运行主系统
+
+
 import os
 from feature_extract import feature_extract_to_file
 from classifier import get_classifier_from_args
